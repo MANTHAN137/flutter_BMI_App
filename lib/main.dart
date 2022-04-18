@@ -1,6 +1,7 @@
-// ignore_for_file: use_key_in_widget_constructors
+// ignore_for_file: use_key_in_widget_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'enum_file.dart';
 
@@ -14,15 +15,20 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  late Gender selectedGender=Gender.shemale;
+  late Gender selectedGender = Gender.shemale;
+  int sliderVal = 175;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
         home: Scaffold(
+      backgroundColor: Colors.white.withOpacity(0.92),
       appBar: AppBar(
-        title: const Text('BMI Calculator'),
+        title: Text(
+          'BMI',
+          style: manthanStyle(size: 28, weight: FontWeight.bold),
+        ),
         centerTitle: true,
-        backgroundColor: Colors.deepOrange,
+        backgroundColor: manthanColor,
       ),
       body: Column(
         children: <Widget>[
@@ -36,6 +42,7 @@ class _MyAppState extends State<MyApp> {
                       setState(() {
                         selectedGender = Gender.male;
                       });
+                      HapticFeedback.selectionClick();
                     },
                     child: Container(
                       child: Column(
@@ -45,7 +52,7 @@ class _MyAppState extends State<MyApp> {
                               padding: EdgeInsets.all(20.0),
                               child: Icon(
                                 FontAwesomeIcons.mars,
-                                color: Colors.amberAccent,
+                                color: Colors.white,
                                 size: 120,
                               ),
                             ),
@@ -57,10 +64,12 @@ class _MyAppState extends State<MyApp> {
                                   fontWeight: FontWeight.bold))
                         ],
                       ),
-                      margin: const EdgeInsets.all(10),
+                      margin: const EdgeInsets.all(15),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          color: selectedGender==Gender.male? const Color.fromARGB(255, 141, 30, 215):const Color.fromARGB(255, 24, 45, 86)),
+                          color: selectedGender == Gender.male
+                              ? manthanColor2
+                              : manthanColor),
                     ),
                   ),
                 ),
@@ -69,8 +78,8 @@ class _MyAppState extends State<MyApp> {
                     onTap: () {
                       setState(() {
                         selectedGender = Gender.female;
-                        
                       });
+                      HapticFeedback.selectionClick();
                     },
                     child: Container(
                       child: Column(
@@ -79,7 +88,7 @@ class _MyAppState extends State<MyApp> {
                             padding: EdgeInsets.all(20.0),
                             child: Icon(
                               FontAwesomeIcons.venus,
-                              color: Colors.amberAccent,
+                              color: Colors.white,
                               size: 120,
                             ),
                           ),
@@ -92,10 +101,12 @@ class _MyAppState extends State<MyApp> {
                           )
                         ],
                       ),
-                      margin: const EdgeInsets.all(10),
+                      margin: const EdgeInsets.all(15),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          color: selectedGender==Gender.female? const Color.fromARGB(255, 141, 30, 215):const Color.fromARGB(255, 24, 45, 86)),
+                          color: selectedGender == Gender.female
+                              ? manthanColor2
+                              : manthanColor),
                     ),
                   ),
                 )
@@ -104,8 +115,43 @@ class _MyAppState extends State<MyApp> {
           ),
           Expanded(
             child: Container(
-              
-              margin: const EdgeInsets.all(10),
+              width: double.infinity,
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "HEIGHT",
+                      style: manthanStyle(size: 35, weight: FontWeight.w600),
+                    ),
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.baseline,
+                        textBaseline: TextBaseline.alphabetic,
+                        children: [
+                          Text(
+                            "$sliderVal",
+                            style:
+                                manthanStyle(size: 60, weight: FontWeight.bold),
+                          ),
+                          Text(
+                            "cm",
+                            style:
+                                manthanStyle(size: 35, weight: FontWeight.w600),
+                          ),
+                        ]),
+                    Slider(
+                      value: sliderVal.toDouble(),
+                      thumbColor: Colors.white,
+                      onChanged: (index) {
+                        setState(() {
+                          sliderVal = index.toInt();
+                        });
+                      },
+                      min: 100,
+                      max: 200,
+                    )
+                  ]),
+              margin: const EdgeInsets.all(15),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   color: const Color.fromARGB(255, 24, 45, 86)),
@@ -116,7 +162,7 @@ class _MyAppState extends State<MyApp> {
               children: <Widget>[
                 Expanded(
                   child: Container(
-                    margin: const EdgeInsets.all(10),
+                    margin: const EdgeInsets.all(15),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         color: const Color.fromARGB(255, 24, 45, 86)),
@@ -124,7 +170,7 @@ class _MyAppState extends State<MyApp> {
                 ),
                 Expanded(
                   child: Container(
-                    margin: const EdgeInsets.all(10),
+                    margin: const EdgeInsets.all(15),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         color: const Color.fromARGB(255, 24, 45, 86)),
@@ -134,19 +180,15 @@ class _MyAppState extends State<MyApp> {
             ),
           ),
           Container(
-            margin: const EdgeInsets.all(20),
+            margin: const EdgeInsets.fromLTRB(10, 15, 10, 35),
             width: double.infinity,
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Colors.lightGreen),
+                borderRadius: BorderRadius.circular(10), color: manthanColor),
             height: 60,
-            child: const Center(
+            child: Center(
                 child: Text(
               'Calculate',
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Color.fromARGB(255, 41, 54, 59),
-                  fontSize: 26),
+              style: manthanStyle(size: 26, weight: FontWeight.bold),
             )),
           )
         ],
