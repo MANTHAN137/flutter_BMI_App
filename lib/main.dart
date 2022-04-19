@@ -17,6 +17,9 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   late Gender selectedGender = Gender.shemale;
   int sliderVal = 175;
+  int weight = 60;
+  int age = 20;
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -64,7 +67,7 @@ class _MyAppState extends State<MyApp> {
                                   fontWeight: FontWeight.bold))
                         ],
                       ),
-                      margin: const EdgeInsets.all(15),
+                      margin: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                           color: selectedGender == Gender.male
@@ -101,7 +104,7 @@ class _MyAppState extends State<MyApp> {
                           )
                         ],
                       ),
-                      margin: const EdgeInsets.all(15),
+                      margin: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                           color: selectedGender == Gender.female
@@ -151,7 +154,7 @@ class _MyAppState extends State<MyApp> {
                       max: 200,
                     )
                   ]),
-              margin: const EdgeInsets.all(15),
+              margin: const EdgeInsets.all(10),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   color: const Color.fromARGB(255, 24, 45, 86)),
@@ -162,25 +165,131 @@ class _MyAppState extends State<MyApp> {
               children: <Widget>[
                 Expanded(
                   child: Container(
-                    margin: const EdgeInsets.all(15),
+                    margin: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         color: const Color.fromARGB(255, 24, 45, 86)),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Text(
+                          'Weight',
+                          style:
+                              manthanStyle(size: 25, weight: FontWeight.w600),
+                        ),
+                        Text(
+                          "$weight kg",
+                          style:
+                              manthanStyle(size: 35, weight: FontWeight.w600),
+                        ),
+                        const SizedBox(height: 20),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: <Widget>[
+                            CircleAvatar(
+                              backgroundColor:
+                                  const Color.fromARGB(211, 255, 255, 255),
+                              radius: 30,
+                              child: IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    if (weight > 0) {
+                                      weight--;
+                                      HapticFeedback.selectionClick();
+                                    } else {
+                                      HapticFeedback.vibrate();
+                                    }
+                                  });
+                                },
+                                icon: const Icon(FontAwesomeIcons.minus),
+                              ),
+                            ),
+                            CircleAvatar(
+                              backgroundColor:
+                                  const Color.fromARGB(211, 255, 255, 255),
+                              radius: 30,
+                              child: IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    weight++;
+                                  });
+                                  HapticFeedback.selectionClick();
+                                },
+                                icon: const Icon(FontAwesomeIcons.plus),
+                              ),
+                            )
+                          ],
+                        )
+                      ],
+                    ),
                   ),
                 ),
                 Expanded(
                   child: Container(
-                    margin: const EdgeInsets.all(15),
+                    margin: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         color: const Color.fromARGB(255, 24, 45, 86)),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Text(
+                          'Age',
+                          style:
+                              manthanStyle(size: 20, weight: FontWeight.w600),
+                        ),
+                        Text(
+                          "$age"+" yrs",
+                          style:
+                              manthanStyle(size: 35, weight: FontWeight.w600),
+                        ),
+                        const SizedBox(height: 20),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: <Widget>[
+                            CircleAvatar(
+                              backgroundColor:
+                                  const Color.fromARGB(211, 255, 255, 255),
+                              radius: 30,
+                              child: IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    if (age > 0) {
+                                      age--;
+                                      HapticFeedback.selectionClick();
+                                    } else {
+                                      HapticFeedback.vibrate();
+                                    }
+                                  });
+                                },
+                                icon: const Icon(FontAwesomeIcons.minus),
+                              ),
+                            ),
+                            CircleAvatar(
+                              backgroundColor:
+                                  const Color.fromARGB(211, 255, 255, 255),
+                              radius: 30,
+                              child: IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    age++;
+                                  });
+                                  HapticFeedback.selectionClick();
+                                },
+                                icon: const Icon(FontAwesomeIcons.plus),
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ],
             ),
           ),
           Container(
-            margin: const EdgeInsets.fromLTRB(10, 15, 10, 35),
+            margin: const EdgeInsets.fromLTRB(10, 10, 10, 30),
             width: double.infinity,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10), color: manthanColor),
