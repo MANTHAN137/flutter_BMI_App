@@ -1,7 +1,8 @@
-// ignore_for_file: use_key_in_widget_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: use_key_in_widget_constructors, prefer_const_literals_to_create_immutables, prefer_const_constructors
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_application_1_bmi/BMI_cal.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'enum_file.dart';
 
@@ -15,15 +16,31 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  late Gender selectedGender = Gender.shemale;
+  @override
+  Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
+      ]);
+    return MaterialApp(home: const Home());
+  }
+}
+
+class Home extends StatefulWidget {
+  const Home({Key? key}) : super(key: key);
+
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  late Gender selectedGender = Gender.unknow;
   int sliderVal = 175;
   int weight = 60;
   int age = 20;
-
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        home: Scaffold(
+    return Scaffold(
       backgroundColor: Colors.white.withOpacity(0.92),
       appBar: AppBar(
         title: Text(
@@ -239,7 +256,7 @@ class _MyAppState extends State<MyApp> {
                               manthanStyle(size: 20, weight: FontWeight.w600),
                         ),
                         Text(
-                          "$age"+" yrs",
+                          "$age" + " yrs",
                           style:
                               manthanStyle(size: 35, weight: FontWeight.w600),
                         ),
@@ -252,16 +269,16 @@ class _MyAppState extends State<MyApp> {
                                   const Color.fromARGB(211, 255, 255, 255),
                               radius: 30,
                               child: IconButton(
-                                onPressed: () {
+                                onPressed: (() {
                                   setState(() {
-                                    if (age > 0) {
+                                    if (age >= 0) {
                                       age--;
                                       HapticFeedback.selectionClick();
                                     } else {
-                                      HapticFeedback.vibrate();
+                                      HapticFeedback.heavyImpact();
                                     }
                                   });
-                                },
+                                }),
                                 icon: const Icon(FontAwesomeIcons.minus),
                               ),
                             ),
@@ -288,20 +305,33 @@ class _MyAppState extends State<MyApp> {
               ],
             ),
           ),
-          Container(
-            margin: const EdgeInsets.fromLTRB(10, 10, 10, 30),
-            width: double.infinity,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10), color: manthanColor),
-            height: 60,
-            child: Center(
-                child: Text(
-              'Calculate',
-              style: manthanStyle(size: 26, weight: FontWeight.bold),
-            )),
+          GestureDetector(
+            onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) {
+                    return BMI(
+                        height: sliderVal,
+                        weight: weight,
+                        gender: selectedGender);
+                  }),
+                );
+            },
+            child: Container(
+              margin: const EdgeInsets.fromLTRB(10, 10, 10, 30),
+              width: double.infinity,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10), color: manthanColor),
+              height: 60,
+              child: Center(
+                  child: Text(
+                'Calculate',
+                style: manthanStyle(size: 26, weight: FontWeight.bold),
+              )),
+            ),
           )
         ],
       ),
-    ));
+    );
   }
 }
